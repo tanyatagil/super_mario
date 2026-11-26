@@ -6,6 +6,10 @@ using biv::Game;
 
 Game::Game() {}
 
+void Game::add_carrier(Carrier* obj) {
+	carrier_objs.push_back(obj);
+}
+
 void Game::add_collisionable(Collisionable* obj) {
 	collisionable_objs.push_back(obj);
 }
@@ -24,6 +28,17 @@ void Game::add_movable(Movable* obj) {
 
 void Game::add_static_obj(Rect* obj) {
 	static_objs.push_back(obj);
+}
+
+void Game::carry_mario() noexcept {
+	if (mario == nullptr) {
+		return;
+	}
+	for (Carrier* obj: carrier_objs) {
+		if (obj->is_carrying(mario)) {
+			mario->move_horizontal_offset(obj->get_carry_speed());
+		}
+	}
 }
 
 void Game::check_horizontally_static_collisions() noexcept {
@@ -114,6 +129,10 @@ void Game::move_objs_vertically() noexcept {
 	}
 }
 
+void Game::remove_carrier(Carrier* obj) {
+	remove_obj(carrier_objs, obj);
+}
+
 void Game::remove_collisionable(Collisionable* obj) {
 	remove_obj(collisionable_objs, obj);
 }
@@ -131,6 +150,7 @@ void Game::remove_movable(Movable* obj) {
 }
 
 void Game::remove_objs() {
+	carrier_objs.clear();
 	collisionable_objs.clear();
 	map_movable_objs.clear();
 	movable_objs.clear();

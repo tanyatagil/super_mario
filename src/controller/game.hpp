@@ -6,6 +6,7 @@
 
 #include <vector>
 
+#include "carrier.hpp"
 #include "collisionable.hpp"
 #include "map_movable.hpp"
 #include "mario.hpp"
@@ -15,6 +16,7 @@
 namespace biv {
 	class Game {
 		private:
+			std::vector<Carrier*> carrier_objs;
 			std::vector<MapMovable*> map_movable_objs;
 			std::vector<Rect*> static_objs;
 			std::vector<Collisionable*> collisionable_objs;
@@ -28,11 +30,14 @@ namespace biv {
 		public:
 			Game();
 			
+			void add_carrier(Carrier*);
 			void add_collisionable(Collisionable*);
 			void add_map_movable(MapMovable*);
 			void add_mario(Mario*);
 			void add_movable(Movable*);
 			void add_static_obj(Rect*);
+			
+			void carry_mario() noexcept;
 			
 			void check_horizontally_static_collisions() noexcept;
 			void check_mario_collision();
@@ -49,6 +54,7 @@ namespace biv {
 			void move_objs_horizontally() noexcept;
 			void move_objs_vertically() noexcept;
 			
+			void remove_carrier(Carrier*);
 			void remove_collisionable(Collisionable*);
 			void remove_map_movable(MapMovable*);
 			void remove_mario() noexcept;
